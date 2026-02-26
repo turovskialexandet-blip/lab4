@@ -1,8 +1,8 @@
 package Lab1and2;
 
-import Lab1and2.Models.Saab95;
-import Lab1and2.Models.Scania;
-import Lab1and2.Models.Volvo240;
+import Lab1and2.MotorVehicleModels.Saab95;
+import Lab1and2.MotorVehicleModels.Scania;
+import Lab1and2.MotorVehicleModels.Volvo240;
 
 public class Motor_vehicleFactory {
     public Volvo240 createVolvo240(){

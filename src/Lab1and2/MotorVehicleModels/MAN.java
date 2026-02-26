@@ -1,4 +1,4 @@
-package Lab1and2.Models;
+package Lab1and2.MotorVehicleModels;
 
 import Lab1and2.Car;
 import Lab1and2.Flatbed;
