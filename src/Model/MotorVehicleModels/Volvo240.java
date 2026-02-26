@@ -1,6 +1,6 @@
-package Lab1and2.MotorVehicleModels;
+package Model.MotorVehicleModels;
 
-import Lab1and2.Car;
+import Model.Car;
 
 import java.awt.*;
 

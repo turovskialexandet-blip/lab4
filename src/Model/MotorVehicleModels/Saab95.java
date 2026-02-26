@@ -1,8 +1,8 @@
-package Lab1and2.MotorVehicleModels;
+package Model.MotorVehicleModels;
 
-import Lab1and2.Car;
-import Lab1and2.TurboCharger;
-import Lab1and2.hasTurbo;
+import Model.Car;
+import Model.TurboCharger;
+import Model.hasTurbo;
 
 import java.awt.*;
 

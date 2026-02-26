@@ -1,4 +1,4 @@
-package Lab1and2;
+package Model;
 
 public class Motor_vehicle extends Vehicle {
     private double enginePower;

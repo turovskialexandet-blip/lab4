@@ -1,8 +1,8 @@
-import Lab1and2.*;
-import Lab1and2.MotorVehicleModels.MAN;
-import Lab1and2.MotorVehicleModels.Saab95;
-import Lab1and2.MotorVehicleModels.Scania;
-import Lab1and2.MotorVehicleModels.Volvo240;
+import Model.*;
+import Model.MotorVehicleModels.MAN;
+import Model.MotorVehicleModels.Saab95;
+import Model.MotorVehicleModels.Scania;
+import Model.MotorVehicleModels.Volvo240;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;

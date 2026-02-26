@@ -1,4 +1,4 @@
-package Lab1and2;
+package Model;
 
 public interface hasTurbo {
     void setTurboOn();
