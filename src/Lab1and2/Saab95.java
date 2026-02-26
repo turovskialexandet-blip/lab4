@@ -2,7 +2,7 @@ package Lab1and2;
 
 import java.awt.*;
 
-public class Saab95 extends Car {
+public class Saab95 extends Car implements hasTurbo{
 
     private final TurboCharger turboCharger = new TurboCharger();
     

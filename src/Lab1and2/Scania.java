@@ -2,7 +2,7 @@ package Lab1and2;
 
 import java.awt.*;
 
-public class Scania extends Truck<Object>{
+public class Scania extends Truck<Object> implements hasFlatbed{
     private final Flatbed flatbed;
     private final TurboCharger turboCharger;
 
