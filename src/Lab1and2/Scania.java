@@ -1,9 +1,4 @@
-package Model.MotorVehicleModels;
-
-import Model.Flatbed;
-import Model.Truck;
-import Model.TurboCharger;
-import Model.hasFlatbed;
+package Lab1and2;
 
 import java.awt.*;
 

@@ -1,8 +1,4 @@
-package Model.MotorVehicleModels;
-
-import Model.Car;
-import Model.Flatbed;
-import Model.Truck;
+package Lab1and2;
 
 import java.awt.*;
 import java.util.List;
