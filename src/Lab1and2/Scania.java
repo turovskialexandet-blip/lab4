@@ -32,7 +32,7 @@ public class Scania extends Truck<Object>{
     }
 
     @Override
-    public void startEngine(){ if (getFlatBedAngle() == 0) currentSpeed = 0.1; }
+    public void startEngine(){ if (getFlatBedAngle() == 0) setCurrentSpeed(0.1); }
 
     @Override
     public double speedFactor(){

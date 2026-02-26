@@ -5,7 +5,7 @@ import java.awt.*;
 public class Vehicle implements Movable {
     private final Point coordinates = new Point(0, 0);
     private int direction_state = 1;
-    public double currentSpeed;
+    private double currentSpeed;
 
     public void move(){
         switch (direction_state) {
@@ -31,6 +31,8 @@ public class Vehicle implements Movable {
     public Point getCoordinates(){ return coordinates; }
 
     public double getCurrentSpeed(){ return currentSpeed; }
+
+    public void setCurrentSpeed(double amount ){ currentSpeed = amount; }
 
     public double speedFactor(){ return 0; }
 
