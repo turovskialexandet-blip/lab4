@@ -1,8 +1,12 @@
-package Lab1and2;
+package Lab1and2.Models;
+
+import Lab1and2.Car;
+import Lab1and2.TurboCharger;
+import Lab1and2.hasTurbo;
 
 import java.awt.*;
 
-public class Saab95 extends Car implements hasTurbo{
+public class Saab95 extends Car implements hasTurbo {
 
     private final TurboCharger turboCharger = new TurboCharger();
     

@@ -1,9 +1,13 @@
-package Lab1and2;
+package Lab1and2.Models;
+
+import Lab1and2.Car;
+import Lab1and2.Flatbed;
+import Lab1and2.Truck;
 
 import java.awt.*;
 import java.util.List;
 /**
- * Lab1and2.MAN - Biltransport
+ * Lab1and2.Models.MAN - Biltransport
  * Regler:
  * - Rampen har två lägen: uppe eller nere.
  * - Rampen får bara vara nere när bilen står still.
@@ -30,7 +34,7 @@ public class MAN extends Truck<Car> {
         return flatbed.getRampLowered();
     }
 
-    //Sänker rampen om Lab1and2.MAN står stilla.
+    //Sänker rampen om Lab1and2.Models.MAN står stilla.
     public void lowerRamp() {
         if (getCurrentSpeed() == 0) {
             flatbed.LoweredRamp();
@@ -66,7 +70,7 @@ public class MAN extends Truck<Car> {
      * @return true om bilen lastades, annars false
      */
     public boolean loadCar(Car car) {
-        // Rampen måste vara nere och Lab1and2.MAN måste stå still
+        // Rampen måste vara nere och Lab1and2.Models.MAN måste stå still
         if (!isRampLowered() || getCurrentSpeed() != 0) return false;
 
         // Max antal bilar
@@ -87,7 +91,7 @@ public class MAN extends Truck<Car> {
     }
 
     /**
-     * Lossar sista bilen (FILO) om rampen är nere och Lab1and2.MAN står still.
+     * Lossar sista bilen (FILO) om rampen är nere och Lab1and2.Models.MAN står still.
      * @return bilen som lossades, eller null om det inte gick
      */
     public Car unloadCar() {
@@ -101,7 +105,7 @@ public class MAN extends Truck<Car> {
         // istället för removeLast(), som endast finns för Deque/LinkedList.
         Car car = cargo.remove(cargo.size() - 1);
 
-        // Placera "rimligt nära" efter lossning (t.ex. Bakom Lab1and2.MAN)
+        // Placera "rimligt nära" efter lossning (t.ex. Bakom Lab1and2.Models.MAN)
         // (Vi tar en enkel regel: x - 1)
         car.getCoordinates().x = this.getCoordinates().x - 1;
         car.getCoordinates().y = this.getCoordinates().y;

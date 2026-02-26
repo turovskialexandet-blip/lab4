@@ -1,12 +1,13 @@
 import Lab1and2.*;
+import Lab1and2.Models.Saab95;
+import Lab1and2.Models.Scania;
+import Lab1and2.Models.Volvo240;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 /*
 * This class represents the Controller part in the MVC pattern.
@@ -37,9 +38,9 @@ public class CarController {
         // Instance of this class
         CarController cc = new CarController();
 
-        cc.cars.add(new Lab1and2.Volvo240());
-        cc.cars.add(new Lab1and2.Saab95());
-        cc.cars.add(new Lab1and2.Scania());
+        cc.cars.add(new Volvo240());
+        cc.cars.add(new Saab95());
+        cc.cars.add(new Scania());
 
         //cars starting 100 pixels away from each other
         cc.carStartPositions();

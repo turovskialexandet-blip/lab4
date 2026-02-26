@@ -1,4 +1,6 @@
-package Lab1and2;
+package Lab1and2.Models;
+
+import Lab1and2.Car;
 
 import java.awt.*;
 
