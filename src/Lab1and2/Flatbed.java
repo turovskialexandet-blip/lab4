@@ -13,7 +13,7 @@ public class Flatbed {
     }
 
     public void LowerFlatbed(double angle){
-            FlatBedAngle = Math.min(FlatBedAngle - angle, 70);
+            FlatBedAngle = Math.max(FlatBedAngle - angle, 70);
     }
 
     public void RaiseRamp(){ RampLowered = false; }
