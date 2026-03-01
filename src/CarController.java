@@ -2,6 +2,7 @@ import Lab1and2.*;
 import Lab1and2.Saab95;
 import Lab1and2.Scania;
 import Lab1and2.Volvo240;
+import Lab1and2.Motor_vehicleFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,9 +39,9 @@ public class CarController {
         // Instance of this class
         CarController cc = new CarController();
 
-        cc.cars.add(new Volvo240());
-        cc.cars.add(new Saab95());
-        cc.cars.add(new Scania());
+        cc.cars.add(Motor_vehicleFactory.createVolvo240());
+        cc.cars.add(Motor_vehicleFactory.createSaab95());
+        cc.cars.add(Motor_vehicleFactory.createScania());
 
         //cars starting 100 pixels away from each other
         cc.carStartPositions();

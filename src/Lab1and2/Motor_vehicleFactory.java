@@ -1,13 +1,13 @@
 package Lab1and2;
 
 public class Motor_vehicleFactory {
-    public Volvo240 createVolvo240(){
+    public static Volvo240 createVolvo240(){
         return new Volvo240();
     }
-    public Saab95 createSaab95(){
+    public static Saab95 createSaab95(){
         return new Saab95();
     }
-    public Scania createScania(){
+    public static Scania createScania(){
         return new Scania();
     }
 }
