@@ -41,9 +41,9 @@ public class DrawPanel extends JPanel {
         // Load workshop image
         try {
             volvoWorkshopImage = ImageIO.read(
-                    DrawPanel.class.getResourceAsStream("pics/VolvoBrand.jpg"));
+                    DrawPanel.class.getResourceAsStream("/pics/VolvoBrand.jpg"));
         } catch (IOException | IllegalArgumentException e) {
-            System.err.println("Could not load workshop image: pics/VolvoBrand.jpg");
+            System.err.println("Could not load workshop image: /pics/VolvoBrand.jpg");
             volvoWorkshopImage = null;
         }
     }
