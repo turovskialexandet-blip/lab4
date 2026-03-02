@@ -4,6 +4,10 @@ public class Motor_vehicle extends Vehicle {
     private double enginePower;
     private String modelName; // The vehicle model
 
+    private String imagePath;
+    public String getImagePath() { return imagePath; }
+    protected void setImagePath(String path) { this.imagePath = path; }
+
     public double getEnginePower(){ return enginePower; }
 
     //public boolean getTurbo(){ return turboOn; }

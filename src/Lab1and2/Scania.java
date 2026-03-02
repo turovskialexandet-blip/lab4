@@ -7,7 +7,7 @@ public class Scania extends Truck<Object> implements hasFlatbed {
     private final TurboCharger turboCharger;
 
     public Scania(){
-        super(2, 550, Color.BLUE, "Scania");
+        super(2, 550, Color.BLUE, "Scania", "/pics/Scania.jpg");
         flatbed = new Flatbed();
         turboCharger = new TurboCharger();
     }

@@ -1,8 +1,4 @@
-import Lab1and2.*;
-import Lab1and2.Saab95;
-import Lab1and2.Scania;
-import Lab1and2.Volvo240;
-import Lab1and2.Motor_vehicleFactory;
+package Lab1and2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +29,7 @@ public class CarController {
     //workShop object for Volvo240
     private final Workshop<Volvo240> volvoBrand = new Workshop<>(2);
 
+    private final Point volvoWorkshopPoint = new Point(300, 0);
     //methods:
 
     public static void main(String[] args) {
@@ -67,18 +64,18 @@ public class CarController {
      * */
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            // This
-            for (int i = cars.size()-1; i >= 0; i--) {
+            for (int i = cars.size() - 1; i >= 0; i--) {
                 Motor_vehicle car = cars.get(i);
                 car.move();
-                int x = (int) Math.round(car.getCoordinates().x);
-                int y = (int) Math.round(car.getCoordinates().y);
-                frame.drawPanel.moveit(x, y, i);
+
+                int x = car.getCoordinates().x;
+                int y = car.getCoordinates().y;
+
                 collisionHandler(x, y, i, car);
-                // repaint() calls the paintComponent method of the panel
-                frame.drawPanel.repaint();
-                //current_Car++;
             }
+
+            // repaint en gång efter att alla bilar uppdaterats
+            frame.repaintDrawPanel();
         }
     }
 
@@ -91,8 +88,8 @@ public class CarController {
     private void hitWallCollision(int x, int y, Motor_vehicle car){
 
         //frame constrains
-        int maxX = frame.drawPanel.getWidth() - 100; //how far you can move in x
-        int maxY = frame.drawPanel.getHeight() - 60;
+        int maxX = frame.getDrawPanelWidth() - 100; //how far you can move in x
+        int maxY = frame.getDrawPanelHeight() - 60;
 
         if ((x >= maxX && car.getDirection_state() == 1) || //right wall, drive right
                 (x <= 0 && car.getDirection_state() == 3) || //left wall, drive left
@@ -108,7 +105,7 @@ public class CarController {
 
     // handles collision with workshop
     private void hitWorkshopCollision(int x, int y, int index, Motor_vehicle car){
-        Point workShopPos = frame.drawPanel.volvoWorkshopPoint;
+        Point workShopPos = volvoWorkshopPoint;
         if (car instanceof Volvo240){
             System.out.println(String.format("XPos: %s, YPos: %s", x, y));
         }
@@ -119,7 +116,6 @@ public class CarController {
         ) {
             System.out.println("Collided");
             volvoBrand.load((Volvo240) car);
-            frame.drawPanel.carMovedToWorkshop(index);
             cars.remove(car);
         }
     }
@@ -178,5 +174,11 @@ public class CarController {
                 ((hasFlatbed) car).LowerFlatbed(45);
             }
         }
+    }
+
+
+    // Getter for vehicles (used by Lab1and2.CarView / DrawPanel)
+    public ArrayList<Motor_vehicle> getVehicles() {
+        return cars;
     }
 }

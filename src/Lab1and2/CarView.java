@@ -1,3 +1,5 @@
+package Lab1and2;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -20,7 +22,7 @@ public class CarView extends JFrame{
     // The controller member
     CarController carC;
 
-    DrawPanel drawPanel = new DrawPanel(X, Y-240);
+    DrawPanel drawPanel;
 
     JPanel controlPanel = new JPanel();
 
@@ -42,9 +44,9 @@ public class CarView extends JFrame{
     // Constructor
     public CarView(String framename, CarController cc){
         this.carC = cc;
+        this.drawPanel = new DrawPanel(X, Y-240, carC.getVehicles()); // eller getCars()
         initComponents(framename);
     }
-
     // Sets everything in place and fits everything
     // TODO: Take a good look and make sure you understand how these methods and components work
     private void initComponents(String title) {
@@ -166,5 +168,17 @@ public class CarView extends JFrame{
         this.setVisible(true);
         // Make sure the frame exits when "x" is pressed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void repaintDrawPanel() {
+        drawPanel.repaint();
+    }
+
+    public int getDrawPanelWidth() {
+        return drawPanel.getWidth();
+    }
+
+    public int getDrawPanelHeight() {
+        return drawPanel.getHeight();
     }
 }

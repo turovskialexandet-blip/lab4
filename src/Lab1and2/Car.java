@@ -7,11 +7,12 @@ public class Car extends Motor_vehicle {
     private Color color; // Color of the car
     //private final String modelName; // The car model
 
-    public Car(int nrDoors, double enginePower, Color color, String modelName) {
+    public Car(int nrDoors, double enginePower, Color color, String modelName, String imagePath) {
         this.nrDoors = nrDoors;
         setEnginePower(enginePower);
         this.color = color;
         setModelName(modelName);
+        setImagePath(imagePath);
         stopEngine();
     }
 

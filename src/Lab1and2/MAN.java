@@ -19,7 +19,7 @@ public class MAN extends Truck<Car> {
     private final double maxLoadDistance;  // "rimligt nära"
 
     public MAN(int maxCars) {
-        super(2, 400, Color.GRAY, "MAN"); //rimliga startvärden
+        super(2, 400, Color.GRAY, "MAN", "/pics/MAN.jpg"); //rimliga startvärden
         this.flatbed = new Flatbed();
         this.maxCars = maxCars;
         this.maxLoadDistance = 10.0;
