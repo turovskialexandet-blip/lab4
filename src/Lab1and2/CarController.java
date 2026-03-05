@@ -50,6 +50,12 @@ public class CarController {
         // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.0", cc);
 
+
+        // Registrerar DrawPanel som observer på bilar efter de skapats
+        for (Motor_vehicle car : cc.cars) {
+            car.addObserver(cc.frame.getDrawPanel());
+        }
+
         collisionHandler = new CollisionHandler(cc.frame);
         // Start the timer
         cc.timer.start();
@@ -71,7 +77,7 @@ public class CarController {
         public void actionPerformed(ActionEvent e) {
             for (int i = cars.size() - 1; i >= 0; i--) {
                 Motor_vehicle car = cars.get(i);
-                car.move();
+                car.move(); //notifierar DrawPanel via observer
 
                 int x = car.getCoordinates().x;
                 int y = car.getCoordinates().y;
@@ -85,7 +91,7 @@ public class CarController {
             }
 
             // repaint en gång efter att alla bilar uppdaterats
-            frame.repaintDrawPanel();
+            //frame.repaintDrawPanel(); //behövs inte längre efter observer
         }
     }
 

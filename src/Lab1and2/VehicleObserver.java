@@ -1,4 +1,5 @@
 package Lab1and2;
 
 public interface VehicleObserver {
+    void positionChanged();
 }

@@ -19,7 +19,7 @@ import java.util.Map;
 // NOTE: This class does NOT decide which image belongs to which vehicle.
 // That responsibility lies in the model (Motor_vehicle).
 
-public class DrawPanel extends JPanel {
+public class DrawPanel extends JPanel implements VehicleObserver {
 
     // List of vehicles to draw (comes from controller)
     private final List<Motor_vehicle> vehicles;
@@ -71,6 +71,13 @@ public class DrawPanel extends JPanel {
         return imageCache.get(path);
     }
 
+
+    //called by Motor_vehicle
+    @Override
+    public void positionChanged(){
+        repaint();
+    }
+
     // Called automatically when panel repaints
     // Draws all vehicles at their current positions
     @Override
@@ -98,5 +105,7 @@ public class DrawPanel extends JPanel {
                     volvoWorkshopPoint.y,
                     null);
         }
+
     }
+
 }

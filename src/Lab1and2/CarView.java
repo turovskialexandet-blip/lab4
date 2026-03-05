@@ -41,6 +41,11 @@ public class CarView extends JFrame{
     JButton startButton = new JButton("Start all cars");
     JButton stopButton = new JButton("Stop all cars");
 
+    //behöver referens till DrawPanel för att kunna registrera
+    public DrawPanel getDrawPanel(){
+        return drawPanel;
+    }
+
     // Constructor
     public CarView(String framename, CarController cc){
         this.carC = cc;
@@ -170,9 +175,7 @@ public class CarView extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void repaintDrawPanel() {
-        drawPanel.repaint();
-    }
+    //public void repaintDrawPanel() {drawPanel.repaint();} //drawpanel sköter sin repaint via positionChanged
 
     public int getDrawPanelWidth() {
         return drawPanel.getWidth();
