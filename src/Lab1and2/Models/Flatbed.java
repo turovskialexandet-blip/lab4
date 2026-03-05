@@ -1,4 +1,4 @@
-package Lab1and2;
+package Lab1and2.Models;
 
 public class Flatbed {
     private double FlatBedAngle = 0;

@@ -1,4 +1,4 @@
-package Lab1and2;
+package Lab1and2.Models;
 
 import java.awt.*;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MAN extends Truck<Car> {
 
-    private final Flatbed flatbed;      // använder ramp funktionen i Lab1and2.Flatbed
+    private final Flatbed flatbed;      // använder ramp funktionen i Lab1and2.Models.Flatbed
     private final int maxCars;
     private final double maxLoadDistance;  // "rimligt nära"
 

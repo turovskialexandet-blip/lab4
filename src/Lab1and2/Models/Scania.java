@@ -1,4 +1,4 @@
-package Lab1and2;
+package Lab1and2.Models;
 
 import java.awt.*;
 
@@ -17,7 +17,7 @@ public class Scania extends Truck<Object> implements hasFlatbed {
     public void RaiseFlatbed(double angle) {
         if (getCurrentSpeed() == 0) {
             // då du har redan lagt till detta vilkoret i Lab1and2.Models.Scania och Lab1and2.Models.MAN så tog jag brot det
-            // från Lab1and2.Flatbed.java
+            // från Lab1and2.Models.Flatbed.java
             flatbed.RaiseFlatbed(angle);
         }
     }

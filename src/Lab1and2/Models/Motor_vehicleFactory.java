@@ -1,4 +1,4 @@
-package Lab1and2;
+package Lab1and2.Models;
 
 public class Motor_vehicleFactory {
     public static Volvo240 createVolvo240(){

@@ -1,5 +1,8 @@
 package Lab1and2;
 
+import Lab1and2.Models.Motor_vehicle;
+import Lab1and2.Models.Volvo240;
+
 import java.awt.*;
 
 public class CollisionHandler {

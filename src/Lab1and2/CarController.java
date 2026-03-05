@@ -1,5 +1,7 @@
 package Lab1and2;
 
+import Lab1and2.Models.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

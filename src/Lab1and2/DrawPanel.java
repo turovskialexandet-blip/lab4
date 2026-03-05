@@ -1,5 +1,7 @@
 package Lab1and2;
 
+import Lab1and2.Models.Motor_vehicle;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
