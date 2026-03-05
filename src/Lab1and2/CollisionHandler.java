@@ -4,6 +4,7 @@ import Lab1and2.Models.Motor_vehicle;
 import Lab1and2.Models.Volvo240;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class CollisionHandler {
 
@@ -33,13 +34,10 @@ public class CollisionHandler {
 
     public boolean hitWorkshopCollision(int x, int y, int index, Motor_vehicle car, Point volvoWorkshopPoint){
         Point workShopPos = volvoWorkshopPoint;
-        if (car instanceof Volvo240){
-            System.out.println(String.format("XPos: %s, YPos: %s", x, y));
-        }
 
         if (((x >= workShopPos.x &&  x < workShopPos.x + 101) &&
                 (y >= workShopPos.y && y < workShopPos.y + 96))
-                && car instanceof Volvo240
+                && Objects.equals(car.getModelName(), "Volvo240")
         ) {
             return true;
         }

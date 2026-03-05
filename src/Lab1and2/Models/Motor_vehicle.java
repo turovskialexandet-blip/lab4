@@ -1,8 +1,7 @@
 package Lab1and2.Models;
 
-public class Motor_vehicle extends Vehicle {
+public abstract class Motor_vehicle extends Vehicle {
     private double enginePower;
-    private String modelName; // The vehicle model
 
     private String imagePath;
     public String getImagePath() { return imagePath; }
@@ -12,7 +11,7 @@ public class Motor_vehicle extends Vehicle {
 
     //public boolean getTurbo(){ return turboOn; }
 
-    public String getModelName(){return modelName; }
+    public abstract String getModelName();
 
     public void startEngine(){ setCurrentSpeed(0.1); }
 
@@ -20,7 +19,6 @@ public class Motor_vehicle extends Vehicle {
 
     public void setEnginePower(double amount){ enginePower = amount; }
 
-    public void setModelName(String name){ modelName = name; }
 
     @Override
     public void incrementSpeed(double amount){

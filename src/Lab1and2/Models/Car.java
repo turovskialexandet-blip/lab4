@@ -5,13 +5,13 @@ import java.awt.*;
 public class Car extends Motor_vehicle {
     private final int nrDoors; // Number of doors on the car
     private Color color; // Color of the car
-    //private final String modelName; // The car model
+    private final String modelName; // The car model
 
     public Car(int nrDoors, double enginePower, Color color, String modelName, String imagePath) {
         this.nrDoors = nrDoors;
         setEnginePower(enginePower);
         this.color = color;
-        setModelName(modelName);
+        this.modelName = modelName;
         setImagePath(imagePath);
         stopEngine();
     }
@@ -26,4 +26,10 @@ public class Car extends Motor_vehicle {
 
     // setter-function to set the color of the car
     public void setColor(Color clr){ color = clr; }
+
+    @Override
+    public String getModelName() {
+        return modelName;
+    }
+
 }

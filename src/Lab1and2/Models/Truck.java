@@ -8,6 +8,7 @@ public class Truck <Cargo> extends Motor_vehicle {
     private final int nrDoors; // Number of doors on the car
     private Color color; // Color of the vehicle
     private final List<Cargo> truckCargo;
+    private final String modelName; // The car model
 
 
     public Truck(int nrDoors, double enginePower, Color color, String modelName, String imagePath) {
@@ -15,7 +16,7 @@ public class Truck <Cargo> extends Motor_vehicle {
         setEnginePower(enginePower);
         this.color = color;
 
-        setModelName(modelName);
+        this.modelName = modelName;
         setImagePath(imagePath);
 
         this.truckCargo = new ArrayList<>();
@@ -49,5 +50,10 @@ public class Truck <Cargo> extends Motor_vehicle {
         if (!truckCargo.isEmpty()) {
             truckCargo.remove(truckCargo.size() - 1);
         }
+    }
+
+    @Override
+    public String getModelName() {
+        return modelName;
     }
 }
