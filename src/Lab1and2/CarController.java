@@ -26,6 +26,8 @@ public class CarController {
     // A list of cars, modify if needed
     ArrayList<Motor_vehicle> cars = new ArrayList<>();
 
+    private static CollisionHandler collisionHandler;
+
     //workShop object for Volvo240
     private final Workshop<Volvo240> volvoBrand = new Workshop<>(2);
 
@@ -46,6 +48,7 @@ public class CarController {
         // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.0", cc);
 
+        collisionHandler = new CollisionHandler(cc.frame);
         // Start the timer
         cc.timer.start();
     }
@@ -71,7 +74,12 @@ public class CarController {
                 int x = car.getCoordinates().x;
                 int y = car.getCoordinates().y;
 
-                collisionHandler(x, y, i, car);
+                collisionHandler.hitWallCollision(x, y, car);
+                if (collisionHandler.hitWorkshopCollision(x, y, i, car, volvoWorkshopPoint)){
+                    volvoBrand.load((Volvo240) car);
+                    cars.remove(car);
+                }
+                //collisionHandler(x, y, i, car);
             }
 
             // repaint en gång efter att alla bilar uppdaterats
@@ -79,6 +87,7 @@ public class CarController {
         }
     }
 
+    /*
     //handles all collisions
     private void collisionHandler(int x, int y, int index, Motor_vehicle car){
         hitWallCollision(x, y, car);
@@ -119,7 +128,7 @@ public class CarController {
             cars.remove(car);
         }
     }
-
+    */
     // Calls the gas method for each car once
     void gas(int amount) {
         double gas = ((double) amount) / 100;
