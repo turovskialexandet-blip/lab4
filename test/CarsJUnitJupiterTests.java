@@ -1,4 +1,8 @@
-import Lab1and2.Models.*;
+import CarSimulator.Models.*;
+import CarSimulator.Models.Vehicle_models.MAN;
+import CarSimulator.Models.Vehicle_models.Saab95;
+import CarSimulator.Models.Vehicle_models.Scania;
+import CarSimulator.Models.Vehicle_models.Volvo240;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
