@@ -8,7 +8,7 @@ import java.util.List;
 public abstract class Motor_vehicle extends Vehicle {
     private double enginePower;
     private List<VehicleObserver> observers = new ArrayList<>();
-    private boolean engineOn;
+    private boolean engineOn = true;
     private State state;
 
     // registrera på listan
@@ -33,15 +33,21 @@ public abstract class Motor_vehicle extends Vehicle {
 
     public void startEngine(){
         setCurrentSpeed(0.1);
-        engineOn = true;
-        System.out.println(engineOn);
-        System.out.println(getCurrentSpeed());
+        setEngineOn();
+        //System.out.println(engineOn);
+        //System.out.println(getCurrentSpeed());
     }
+
     public void stopEngine(){
         setCurrentSpeed(0);
-        engineOn = false;
-        System.out.println(engineOn);
-        System.out.println(getCurrentSpeed());
+        setEngineOn();
+        //System.out.println(engineOn);
+        //System.out.println(getCurrentSpeed());
+    }
+
+    public void setEngineOn(){
+        if (engineOn) engineOn = false;
+        else engineOn = true;
     }
 
     public void setEnginePower(double amount){ enginePower = amount; }
