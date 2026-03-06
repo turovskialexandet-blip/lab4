@@ -9,5 +9,5 @@ public interface State {
             return "";
         }
     };
-    void handlerequest();
+    void handlerequest(Motor_vehicle vehicle);
 }

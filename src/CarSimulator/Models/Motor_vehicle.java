@@ -39,7 +39,7 @@ public abstract class Motor_vehicle extends Vehicle {
 
     public void setState(State state){ this.state = state; }
 
-    public void request(){ state.handlerequest(); }
+    public void request(){ state.handlerequest(this); }
 
     //
     @Override
