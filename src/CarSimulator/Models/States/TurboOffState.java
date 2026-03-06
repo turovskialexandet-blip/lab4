@@ -7,6 +7,6 @@ import CarSimulator.Models.hasTurbo;
 public class TurboOffState implements State{
     @Override
     public void handlerequest(Motor_vehicle vehicle) {
-        ((hasTurbo) motorVehicle).setTurboOff();
+        ((hasTurbo) vehicle).setTurboOff();
     }
 }
