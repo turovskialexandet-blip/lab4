@@ -8,6 +8,7 @@ public class Vehicle implements Movable {
     private double currentSpeed;
 
     public void move(){
+        //System.out.println(currentSpeed);
         switch (direction_state) {
             case 0: //rakt fram
                 coordinates.y += (int) currentSpeed;

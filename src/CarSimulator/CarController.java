@@ -123,6 +123,7 @@ public class CarController {
         for (Motor_vehicle car : cars) {
             car.setState(new StopState());
             car.request();
+            //car.stopEngine();
         }
     }
 
