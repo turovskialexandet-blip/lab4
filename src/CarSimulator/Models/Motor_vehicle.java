@@ -29,22 +29,25 @@ public abstract class Motor_vehicle extends Vehicle {
     public abstract String getModelName();
 
     public void startEngine(){
-        setCurrentSpeed(0.1);
-        setEngineOn();
-        //System.out.println(engineOn);
-        //System.out.println(getCurrentSpeed());
+        if (!engineOn){
+            setCurrentSpeed(0.1);
+            setEngineOn();
+        }
     }
 
     public void stopEngine(){
-        setCurrentSpeed(0);
-        setEngineOn();
-        //System.out.println(engineOn);
-        //System.out.println(getCurrentSpeed());
+        if (engineOn){
+            setCurrentSpeed(0);
+            setEngineOff();
+        }
     }
 
     public void setEngineOn(){
-        if (engineOn) engineOn = false;
-        else engineOn = true;
+        engineOn = true;
+    }
+
+    public void setEngineOff(){
+        engineOn = false;
     }
 
     public void setEnginePower(double amount){ enginePower = amount; }
