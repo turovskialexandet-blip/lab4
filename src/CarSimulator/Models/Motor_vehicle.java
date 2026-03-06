@@ -54,7 +54,6 @@ public abstract class Motor_vehicle extends Vehicle {
 
     public void setState(State state){
         this.state = state;
-        System.out.println(state);
     }
 
     public void request(){ state.handlerequest(this); }

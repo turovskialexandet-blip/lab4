@@ -33,7 +33,6 @@ public class Scania extends Truck<Object> implements hasFlatbed {
     public void gas(double amount) {
         if (getFlatBedAngle() == 0) {
             super.gas(amount);
-            System.out.println(getCurrentSpeed());
         }
     }
 
