@@ -12,6 +12,12 @@ public abstract class Motor_vehicle extends Vehicle {
     public void addObserver(VehicleObserver o) {
         observers.add(o);
     }
+    public void remove() {
+        notifyRemoved();
+    }
+    public void add() {
+        notifyAdded();
+    }
 
     // anropar positionChanged på alla registrerade
     private void notifyObservers() {
@@ -19,6 +25,19 @@ public abstract class Motor_vehicle extends Vehicle {
             o.positionChanged();
         }
     }
+    private void notifyRemoved() {
+        for (VehicleObserver o : observers) {
+            o.vehicleRemoved();
+        }
+    }
+    private void notifyAdded() {
+        for (VehicleObserver o : observers) {
+            o.vehicleAdded();
+        }
+    }
+
+
+
 
     private String imagePath;
     public String getImagePath() { return imagePath; }

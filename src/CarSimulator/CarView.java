@@ -191,16 +191,26 @@ public class CarView extends JFrame implements VehicleObserver {
 
     //public void repaintDrawPanel() {drawPanel.repaint();} //drawpanel sköter sin repaint via positionChanged
 
-    @Override
-    public void positionChanged() {
-        drawPanel.repaint();
-    }
-
     public int getDrawPanelWidth() {
         return drawPanel.getWidth();
     }
 
     public int getDrawPanelHeight() {
         return drawPanel.getHeight();
+    }
+
+    @Override
+    public void positionChanged() {
+        drawPanel.repaint();
+    }
+
+    @Override
+    public void vehicleRemoved() {
+        drawPanel.repaint();
+    }
+
+    @Override
+    public void vehicleAdded() {
+        drawPanel.repaint();
     }
 }

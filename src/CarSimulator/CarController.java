@@ -154,26 +154,28 @@ public class CarController {
 
     void addCar () {
         if (cars.size() < 10){
+            Motor_vehicle newCar;
             int randomNum = (int)(Math.random() * 2);
 
             if (randomNum > 0){
-                cars.add(Motor_vehicleFactory.createVolvo240());
+                newCar = Motor_vehicleFactory.createVolvo240();
             }
             else{
-                cars.add(Motor_vehicleFactory.createSaab95());
+                newCar = Motor_vehicleFactory.createSaab95();
             }
+            newCar.addObserver(frame);
+            cars.add(newCar);
+            newCar.add();
         }
         System.out.println(cars.size());
     }
 
     void removeCar () {
-        try{
-            cars.removeLast();
-            frame.repaint();
-        } catch (Exception e) {
-            if (!cars.isEmpty()) cars.removeFirst();
-            else System.out.println("No cars in sight!");
+        if (!cars.isEmpty()){
+            Motor_vehicle car = cars.removeLast();
+            car.remove();
         }
+        else {System.out.println("No cars in sight!");}
         System.out.println(cars.size());
     }
 /*
