@@ -42,6 +42,8 @@ public abstract class Motor_vehicle extends Vehicle {
         }
     }
 
+    public boolean getEngine(){ return engineOn; }
+
     public void setEngineOn(){
         engineOn = true;
     }

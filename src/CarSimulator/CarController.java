@@ -158,17 +158,22 @@ public class CarController {
                 cars.add(Motor_vehicleFactory.createSaab95());
             }
         }
+        System.out.println(cars.size());
     }
 
     void removeCar () {
         try{
             cars.removeLast();
         } catch (Exception e) {
-            System.out.println("No cars in sight!");
+            if (!cars.isEmpty()) cars.removeFirst();
+            else System.out.println("No cars in sight!");
         }
+        System.out.println(cars.size());
     }
 
-
+    public CollisionHandler getCollisionHandler() {
+        return collisionHandler;
+    }
 
     // Getter for vehicles (used by Lab1and2.CarView / DrawPanel)
     public ArrayList<Motor_vehicle> getVehicles() {
