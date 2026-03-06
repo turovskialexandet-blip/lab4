@@ -44,7 +44,7 @@ public class CarView extends JFrame implements VehicleObserver {
     JButton stopButton = new JButton("Stop all cars");
 
     JButton addCarButton = new JButton("Add car");
-    JButton RemoveCarButton = new JButton("Remove car");
+    JButton removeCarButton = new JButton("Remove car");
 
     //behöver referens till DrawPanel för att kunna registrera
     public DrawPanel getDrawPanel(){
@@ -169,7 +169,7 @@ public class CarView extends JFrame implements VehicleObserver {
             @Override
             public void actionPerformed(ActionEvent e){ carC.addCar();}});
 
-        addCarButton.addActionListener(new ActionListener(){
+        removeCarButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){ carC.removeCar();}});
 
