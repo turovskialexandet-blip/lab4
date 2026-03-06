@@ -149,7 +149,14 @@ public class CarController {
 
     void addCar () {
         if (cars.size() < 10){
-            // adds cars!
+            int randomNum = (int)(Math.random() * 2);
+
+            if (randomNum > 0){
+                cars.add(Motor_vehicleFactory.createVolvo240());
+            }
+            else{
+                cars.add(Motor_vehicleFactory.createSaab95());
+            }
         }
     }
 
