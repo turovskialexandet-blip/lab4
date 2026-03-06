@@ -1,7 +1,5 @@
 package CarSimulator.Models;
 
-import CarSimulator.Models.States.State;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +7,6 @@ public abstract class Motor_vehicle extends Vehicle {
     private double enginePower;
     private List<VehicleObserver> observers = new ArrayList<>();
     private boolean engineOn = true;
-    private State state;
 
     // registrera på listan
     public void addObserver(VehicleObserver o) {
@@ -51,12 +48,6 @@ public abstract class Motor_vehicle extends Vehicle {
     }
 
     public void setEnginePower(double amount){ enginePower = amount; }
-
-    public void setState(State state){
-        this.state = state;
-    }
-
-    public void request(){ state.handlerequest(this); }
 
     //
     @Override

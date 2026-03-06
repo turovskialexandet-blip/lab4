@@ -1,7 +1,6 @@
 package CarSimulator;
 
 import CarSimulator.Models.*;
-import CarSimulator.Models.States.*;
 import CarSimulator.Models.Vehicle_models.Volvo240;
 
 import javax.swing.*;
@@ -114,34 +113,25 @@ public class CarController {
 
     void start() {
         for (Motor_vehicle car : cars) {
-            car.setState(new StartState());
-            car.request();
+            car.startEngine();
         }
     }
 
     void stop() {
         for (Motor_vehicle car : cars) {
-            car.setState(new StopState());
-            car.request();
-            //car.stopEngine();
+            car.stopEngine();
         }
     }
 
     void turboOn() {
         for (Motor_vehicle car : cars) {
-            if (car instanceof hasTurbo){
-                car.setState(new TurboOnState());
-                car.request();
-            }
+            if (car instanceof hasTurbo) ((hasTurbo) car).setTurboOn();
         }
     }
 
     void turboOff() {
         for (Motor_vehicle car : cars) {
-            if (car instanceof hasTurbo){
-                car.setState(new TurboOffState());
-                car.request();
-            }
+            if (car instanceof hasTurbo) ((hasTurbo) car).setTurboOff();
         }
     }
 
