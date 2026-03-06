@@ -151,6 +151,7 @@ public class CarController {
     }
 
     void removeCar () {
+        cars.removeLast();
     }
 
 
