@@ -1,7 +1,6 @@
 package CarSimulator;
 
 import CarSimulator.Models.Motor_vehicle;
-import CarSimulator.Models.VehicleObserver;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,7 +19,7 @@ import java.util.Map;
 // NOTE: This class does NOT decide which image belongs to which vehicle.
 // That responsibility lies in the model (Motor_vehicle).
 
-public class DrawPanel extends JPanel implements VehicleObserver {
+public class DrawPanel extends JPanel{
 
     // List of vehicles to draw (comes from controller)
     private final List<Motor_vehicle> vehicles;
@@ -70,13 +69,6 @@ public class DrawPanel extends JPanel implements VehicleObserver {
         }
 
         return imageCache.get(path);
-    }
-
-
-    //called by Motor_vehicle
-    @Override
-    public void positionChanged(){
-        repaint();
     }
 
     // Called automatically when panel repaints

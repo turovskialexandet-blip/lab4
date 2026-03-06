@@ -55,7 +55,7 @@ public class CarController {
 
         // Registrerar DrawPanel som observer på bilar efter de skapats
         for (Motor_vehicle car : cc.cars) {
-            car.addObserver(cc.frame.getDrawPanel());
+            car.addObserver(cc.frame);
         }
 
         collisionHandler = new CollisionHandler(cc.frame);

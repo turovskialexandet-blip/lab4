@@ -1,5 +1,7 @@
 package CarSimulator;
 
+import CarSimulator.Models.VehicleObserver;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -15,7 +17,7 @@ import java.awt.event.ActionListener;
  * TODO: Write more actionListeners and wire the rest of the buttons
  **/
 
-public class CarView extends JFrame{
+public class CarView extends JFrame implements VehicleObserver {
     private static final int X = 800;
     private static final int Y = 800;
 
@@ -176,6 +178,11 @@ public class CarView extends JFrame{
     }
 
     //public void repaintDrawPanel() {drawPanel.repaint();} //drawpanel sköter sin repaint via positionChanged
+
+    @Override
+    public void positionChanged() {
+        drawPanel.repaint();
+    }
 
     public int getDrawPanelWidth() {
         return drawPanel.getWidth();
