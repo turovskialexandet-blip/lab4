@@ -151,7 +151,11 @@ public class CarController {
     }
 
     void removeCar () {
-        cars.removeLast();
+        try{
+            cars.removeLast();
+        } catch (Exception e) {
+            System.out.println("No cars in sight!");
+        }
     }
 
 
