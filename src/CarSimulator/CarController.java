@@ -19,10 +19,10 @@ public class CarController {
     // member fields:
 
     // The delay (ms) corresponds to 20 updates a sec (hz)
-    private final int delay = 50;
+    // private final int delay = 50;
     // The timer is started with a listener (see below) that executes the statements
     // each step between delays.
-    private final Timer timer = new Timer(delay, new TimerListener());
+    // private final Timer timer = new Timer(delay, new TimerListener());
 
     // The frame that represents this instance View of the MVC pattern
     CarView frame;
@@ -35,7 +35,10 @@ public class CarController {
     private final Workshop<Volvo240> volvoBrand = new Workshop<>(2);
 
     private final Point volvoWorkshopPoint = new Point(300, 0);
-    //methods:
+
+    //getter for Tick
+    public Point getVolvoWorkshopPoint() {return volvoWorkshopPoint;}
+    public void loadVolvoBrand(Motor_vehicle car) {volvoBrand.load((Volvo240) car);}
 
     public static void main(String[] args) {
         // Instance of this class
@@ -59,7 +62,8 @@ public class CarController {
 
         collisionHandler = new CollisionHandler(cc.frame);
         // Start the timer
-        cc.timer.start();
+        Tick tick = new Tick(cc.cars, collisionHandler,cc);
+        tick.start();
     }
 
     //spawning 100 pixels away from each other
@@ -74,7 +78,7 @@ public class CarController {
     /* Each step the TimerListener moves all the cars in the list and tells the
      * view to update its images. Change this method to your needs.
      * */
-    private class TimerListener implements ActionListener {
+    /*private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             for (int i = cars.size() - 1; i >= 0; i--) {
                 Motor_vehicle car = cars.get(i);
@@ -95,6 +99,7 @@ public class CarController {
         }
     }
 
+     */
     // Calls the gas method for each car once
     void gas(int amount) {
         double gas = ((double) amount) / 100;
@@ -164,16 +169,18 @@ public class CarController {
     void removeCar () {
         try{
             cars.removeLast();
+            frame.repaint();
         } catch (Exception e) {
             if (!cars.isEmpty()) cars.removeFirst();
             else System.out.println("No cars in sight!");
         }
         System.out.println(cars.size());
     }
-
+/*
     public CollisionHandler getCollisionHandler() {
         return collisionHandler;
     }
+ */
 
     // Getter for vehicles (used by Lab1and2.CarView / DrawPanel)
     public ArrayList<Motor_vehicle> getVehicles() {

@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 
 public class CarView extends JFrame implements VehicleObserver {
     private static final int X = 800;
-    private static final int Y = 800;
+    private static final int Y = 500;
 
     // The controller member
     CarController carC;

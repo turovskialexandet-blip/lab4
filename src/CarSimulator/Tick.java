@@ -10,16 +10,20 @@ import java.util.ArrayList;
 
 public class Tick {
     private final int delay = 50;
-    private final Timer timer = new Timer(delay, new Tick.TimerListener());
+    private final Timer timer = new Timer(delay, new TimerListener());
     private ArrayList<Motor_vehicle> cars;
-    private static CollisionHandler collisionHandler;
-    private static CarController cc = new CarController();
+    private final CollisionHandler collisionHandler;
+    private final CarController cc; //= new CarController();
 
 
-    public Tick(ArrayList<Motor_vehicle> cars){
+    public Tick(ArrayList<Motor_vehicle> cars, CollisionHandler collisionHandler, CarController cc){
         this.cars = cars;
-        collisionHandler = cc.getCollisionHandler();
+        this.collisionHandler = collisionHandler; //
+        this.cc = cc; //
     }
+
+    //starta tick - anropas från controller
+    void start() {timer.start();}
 
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -30,14 +34,15 @@ public class Tick {
                 int x = car.getCoordinates().x;
                 int y = car.getCoordinates().y;
 
+                //kolla om kört in i vägg
                 collisionHandler.hitWallCollision(x, y, car);
-                if (collisionHandler.hitWorkshopCollision(x, y, i, car, volvoWorkshopPoint)){
-                    volvoBrand.load((Volvo240) car);
+
+                //om fordonet kör in i verkstad
+                if (collisionHandler.hitWorkshopCollision(x, y, i, car, cc.getVolvoWorkshopPoint())){
+                    cc.loadVolvoBrand(car);
                     cars.remove(car);
                 }
             }
-
-            // repaint en gång efter att alla bilar uppdaterats
             //frame.repaintDrawPanel(); //behövs inte längre efter observer
         }
     }
