@@ -23,7 +23,7 @@ public class CarController {
     private final int delay = 50;
     // The timer is started with a listener (see below) that executes the statements
     // each step between delays.
-    private Timer timer = new Timer(delay, new TimerListener());
+    private final Timer timer = new Timer(delay, new TimerListener());
 
     // The frame that represents this instance View of the MVC pattern
     CarView frame;
@@ -147,19 +147,13 @@ public class CarController {
 
     void liftBed () {
         for (Motor_vehicle car : cars) {
-            if (car instanceof hasFlatbed) {
-                car.setState(new LiftBedState());
-                car.request();
-            }
+            if (car instanceof hasFlatbed) ((hasFlatbed) car).LowerFlatbed(45);
         }
     }
 
     void lowerBed () {
         for (Motor_vehicle car : cars) {
-            if (car instanceof hasFlatbed) {
-                car.setState(new LowerBedState());
-                car.request();
-            }
+            if (car instanceof hasFlatbed) ((hasFlatbed) car).RaiseFlatbed(45);
         }
     }
 
