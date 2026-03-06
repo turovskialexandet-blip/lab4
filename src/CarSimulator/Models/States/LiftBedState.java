@@ -6,6 +6,6 @@ import CarSimulator.Models.hasFlatbed;
 public class LiftBedState implements State{
     @Override
     public void handlerequest(Motor_vehicle vehicle) {
-        ((hasFlatbed) motorVehicle).RaiseFlatbed(45);
+        ((hasFlatbed) vehicle).RaiseFlatbed(45);
     }
 }
