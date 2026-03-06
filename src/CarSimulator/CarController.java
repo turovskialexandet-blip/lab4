@@ -148,7 +148,7 @@ public class CarController {
     }
 
     void addCar () {
-        if (cars.size() == 10){
+        if (cars.size() < 10){
             // adds cars!
         }
     }
