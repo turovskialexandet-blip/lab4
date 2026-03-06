@@ -1,7 +1,6 @@
 package CarSimulator.Models;
 
 import CarSimulator.Models.States.State;
-import CarSimulator.VehicleObserver;
 
 import java.util.ArrayList;
 import java.util.List;

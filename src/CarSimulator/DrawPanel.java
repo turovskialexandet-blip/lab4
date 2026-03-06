@@ -1,6 +1,7 @@
 package CarSimulator;
 
 import CarSimulator.Models.Motor_vehicle;
+import CarSimulator.Models.VehicleObserver;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
