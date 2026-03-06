@@ -43,6 +43,9 @@ public class CarView extends JFrame implements VehicleObserver {
     JButton startButton = new JButton("Start all cars");
     JButton stopButton = new JButton("Stop all cars");
 
+    JButton addCarButton = new JButton("Add car");
+    JButton RemoveCarButton = new JButton("Remove car");
+
     //behöver referens till DrawPanel för att kunna registrera
     public DrawPanel getDrawPanel(){
         return drawPanel;
@@ -162,6 +165,13 @@ public class CarView extends JFrame implements VehicleObserver {
                 carC.lowerBed();
             }
         });
+        addCarButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){ carC.addCar();}});
+
+        addCarButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){ carC.removeCar();}});
 
 
         // Make the frame pack all it's components by respecting the sizes if possible.

@@ -147,6 +147,13 @@ public class CarController {
         }
     }
 
+    void addCar () {
+    }
+
+    void removeCar () {
+    }
+
+
 
     // Getter for vehicles (used by Lab1and2.CarView / DrawPanel)
     public ArrayList<Motor_vehicle> getVehicles() {
