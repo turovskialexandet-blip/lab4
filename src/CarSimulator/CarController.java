@@ -29,40 +29,40 @@ public class CarController {
     // A list of cars, modify if needed
     ArrayList<Motor_vehicle> cars = new ArrayList<>();
 
-    private static CollisionHandler collisionHandler;
-
     //workShop object for Volvo240
-    private final Workshop<Volvo240> volvoBrand = new Workshop<>(2);
-
-    private final Point volvoWorkshopPoint = new Point(300, 0);
-
-    //getter for Tick
-    public Point getVolvoWorkshopPoint() {return volvoWorkshopPoint;}
-    public void loadVolvoBrand(Motor_vehicle car) {volvoBrand.load((Volvo240) car);}
+    final Workshop<Volvo240> volvoBrand = new Workshop<>(2);
 
     public static void main(String[] args) {
         // Instance of this class
         CarController cc = new CarController();
 
+        // Creating cars through Factory
         cc.cars.add(Motor_vehicleFactory.createVolvo240());
         cc.cars.add(Motor_vehicleFactory.createSaab95());
         cc.cars.add(Motor_vehicleFactory.createScania());
 
-        //cars starting 100 pixels away from each other
+        // Cars starting 100 pixels away from each other
         cc.carStartPositions();
 
         // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.0", cc);
-
 
         // Registrerar DrawPanel som observer på bilar efter de skapats
         for (Motor_vehicle car : cc.cars) {
             car.addObserver(cc.frame);
         }
 
-        collisionHandler = new CollisionHandler(cc.frame);
+        CollisionHandler collisionHandler = new CollisionHandler();
+
         // Start the timer
-        Tick tick = new Tick(cc.cars, collisionHandler,cc);
+        Tick tick = new Tick(
+                cc.cars,
+                collisionHandler,
+                cc.volvoBrand,
+                cc.frame.getVolvoWorkshopPoint(),
+                cc.frame.getMaxX(),
+                cc.frame.getMaxY()
+        );
         tick.start();
     }
 
@@ -178,11 +178,6 @@ public class CarController {
         else {System.out.println("No cars in sight!");}
         System.out.println(cars.size());
     }
-/*
-    public CollisionHandler getCollisionHandler() {
-        return collisionHandler;
-    }
- */
 
     // Getter for vehicles (used by Lab1and2.CarView / DrawPanel)
     public ArrayList<Motor_vehicle> getVehicles() {

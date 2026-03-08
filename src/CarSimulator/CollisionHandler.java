@@ -7,21 +7,18 @@ import java.util.Objects;
 
 public class CollisionHandler {
 
-    private CarView frame;
+    //private CarView frame;
+    //public CollisionHandler (){}
 
-    public CollisionHandler (CarView frame){
-        this.frame = frame;
-    }
-
-    public void hitWallCollision(int x, int y, Motor_vehicle car){
+    public void hitWallCollision(int x, int y, Motor_vehicle car, int maxX, int maxY){
 
         //frame constrains
-        int maxX = frame.getDrawPanelWidth() - 100; //how far you can move in x
-        int maxY = frame.getDrawPanelHeight() - 60;
+        int newMaxX = maxX - 100;
+        int newMaxY = maxY - 60;
 
-        if ((x >= maxX && car.getDirection_state() == 1) || //right wall, drive right
+        if ((x >= newMaxX && car.getDirection_state() == 1) || //right wall, drive right
                 (x <= 0 && car.getDirection_state() == 3) || //left wall, drive left
-                (y >= maxY && car.getDirection_state() == 0) || //bottom, drive down
+                (y >= newMaxY && car.getDirection_state() == 0) || //bottom, drive down
                 (y <= 0 && car.getDirection_state() == 2) //up, drive up
         ) {
             car.stopEngine();

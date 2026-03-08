@@ -213,4 +213,18 @@ public class CarView extends JFrame implements VehicleObserver {
     public void vehicleAdded() {
         drawPanel.repaint();
     }
+
+
+    public Point getVolvoWorkshopPoint() { return drawPanel.getVolvoWorkshopPoint();}
+
+    public int getMaxX() {
+        return drawPanel.getWidth();
+    }
+
+    public int getMaxY() {
+        return drawPanel.getHeight();
+    }
 }
+
+
+

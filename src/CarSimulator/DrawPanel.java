@@ -101,4 +101,8 @@ public class DrawPanel extends JPanel{
 
     }
 
+    public Point getVolvoWorkshopPoint() {
+        return volvoWorkshopPoint;
+    }
+
 }

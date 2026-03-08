@@ -2,8 +2,10 @@ package CarSimulator;
 
 import CarSimulator.Models.Motor_vehicle;
 import CarSimulator.Models.Vehicle_models.Volvo240;
+import CarSimulator.Models.Workshop;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,13 +15,19 @@ public class Tick {
     private final Timer timer = new Timer(delay, new TimerListener());
     private ArrayList<Motor_vehicle> cars;
     private final CollisionHandler collisionHandler;
-    private final CarController cc; //= new CarController();
+    private final Workshop<Volvo240> workshop;
+    private final Point workshopPoint;
+    private final int maxX;
+    private final int maxY;
 
-
-    public Tick(ArrayList<Motor_vehicle> cars, CollisionHandler collisionHandler, CarController cc){
+    public Tick(ArrayList<Motor_vehicle> cars, CollisionHandler collisionHandler, Workshop<Volvo240> workshop,
+                Point workshopPoint, int maxX, int maxY){
         this.cars = cars;
         this.collisionHandler = collisionHandler; //
-        this.cc = cc; //
+        this.workshop = workshop;
+        this.workshopPoint = workshopPoint;
+        this.maxX = maxX;
+        this.maxY = maxY;
     }
 
     //starta tick - anropas från controller
@@ -34,12 +42,10 @@ public class Tick {
                 int x = car.getCoordinates().x;
                 int y = car.getCoordinates().y;
 
-                //kolla om kört in i vägg
-                collisionHandler.hitWallCollision(x, y, car);
+                collisionHandler.hitWallCollision(x, y, car, maxX, maxY);
 
-                //om fordonet kör in i verkstad
-                if (collisionHandler.hitWorkshopCollision(x, y, i, car, cc.getVolvoWorkshopPoint())){
-                    cc.loadVolvoBrand(car);
+                if (collisionHandler.hitWorkshopCollision(x, y, i, car, workshopPoint)){
+                    workshop.load((Volvo240) car);
                     cars.remove(car);
                 }
             }
@@ -47,3 +53,4 @@ public class Tick {
         }
     }
 }
+
