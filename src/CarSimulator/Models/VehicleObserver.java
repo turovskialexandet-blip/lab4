@@ -1,7 +1,7 @@
 package CarSimulator.Models;
 
 public interface VehicleObserver {
-    void positionChanged();
+    void vehicleMoved();
     void vehicleRemoved();
     void vehicleAdded();
 }

@@ -19,10 +19,10 @@ public abstract class Motor_vehicle extends Vehicle {
         notifyAdded();
     }
 
-    // anropar positionChanged på alla registrerade
-    private void notifyObservers() {
+    // anropar moved på alla registrerade
+    private void notifyMoved() {
         for (VehicleObserver o : observers) {
-            o.positionChanged();
+            o.vehicleMoved();
         }
     }
     private void notifyRemoved() {
@@ -77,7 +77,7 @@ public abstract class Motor_vehicle extends Vehicle {
     @Override
     public void move() {
         super.move();
-        notifyObservers();
+        notifyMoved();
     }
 
     @Override

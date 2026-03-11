@@ -200,7 +200,7 @@ public class CarView extends JFrame implements VehicleObserver {
     }
 
     @Override
-    public void positionChanged() {
+    public void vehicleMoved() {
         drawPanel.repaint();
     }
 
