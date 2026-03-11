@@ -47,7 +47,7 @@ public class CarController {
         // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.0", cc);
 
-        // Registrerar DrawPanel som observer på bilar efter de skapats
+        // Registrerar CarView som observer på bilar efter de skapats
         for (Motor_vehicle car : cc.cars) {
             car.addObserver(cc.frame);
         }
@@ -163,8 +163,8 @@ public class CarController {
             else{
                 newCar = Motor_vehicleFactory.createSaab95();
             }
-            newCar.addObserver(frame);
-            cars.add(newCar);
+            newCar.addObserver(frame); //registrerar carView som observer på nya bilen
+            cars.add(newCar); //lägger till bilen i listan
             newCar.add();
         }
         System.out.println(cars.size());
