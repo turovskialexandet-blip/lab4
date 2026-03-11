@@ -68,10 +68,18 @@ public class CarController {
 
     //spawning 100 pixels away from each other
     public void carStartPositions() {
-        for (int i = 0; i < cars.size(); i++){
+        int carsPerColumn = 5;
+        int xSpacing = 120;
+        int ySpacing = 100;
+
+        for (int i = 0; i < cars.size(); i++) {
             Motor_vehicle car = cars.get(i);
-            car.getCoordinates().x = 0; //all start at 0
-            car.getCoordinates().y = i * 100; //index * 100 --> 100 pixels away in y
+
+            int column = i / carsPerColumn;
+            int row = i % carsPerColumn;
+
+            car.getCoordinates().x = column * xSpacing;
+            car.getCoordinates().y = row * ySpacing;
         }
     }
 
@@ -152,30 +160,39 @@ public class CarController {
         }
     }
 
-    void addCar () {
-        if (cars.size() < 10){
+    void addCar() {
+        if (cars.size() < 10) {
             Motor_vehicle newCar;
-            int randomNum = (int)(Math.random() * 2);
+            int randomNum = (int)(Math.random() * 3);
 
-            if (randomNum > 0){
+            if (randomNum == 0) {
                 newCar = Motor_vehicleFactory.createVolvo240();
-            }
-            else{
+            } else if (randomNum == 1) {
                 newCar = Motor_vehicleFactory.createSaab95();
+            } else {
+                newCar = Motor_vehicleFactory.createScania();
             }
-            newCar.addObserver(frame); //registrerar carView som observer på nya bilen
-            cars.add(newCar); //lägger till bilen i listan
-            newCar.add();
+
+            newCar.addObserver(frame);   // registrerar CarView som observer
+            cars.add(newCar);            // lägger till bilen i listan
+
+            carStartPositions();         // placerar om alla bilar så de får egna positioner
+            newCar.add();                // notifierar view
         }
+
         System.out.println(cars.size());
     }
 
-    void removeCar () {
-        if (!cars.isEmpty()){
-            Motor_vehicle car = cars.removeLast();
+    void removeCar() {
+        if (!cars.isEmpty()) {
+            Motor_vehicle car = cars.remove(cars.size() - 1);
             car.remove();
+
+            carStartPositions();   // placerar om kvarvarande bilar snyggt
+        } else {
+            System.out.println("No cars in sight!");
         }
-        else {System.out.println("No cars in sight!");}
+
         System.out.println(cars.size());
     }
 
