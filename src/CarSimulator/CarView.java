@@ -18,8 +18,11 @@ import java.awt.event.ActionListener;
  **/
 
 public class CarView extends JFrame implements VehicleObserver {
-    private static final int X = 800;
-    private static final int Y = 500;
+    private static final int X = 1200;
+    private static final int Y = 900;
+
+    private JButton addCarButton;
+    private JButton removeCarButton;
 
     // The controller member
     CarController carC;
@@ -43,8 +46,6 @@ public class CarView extends JFrame implements VehicleObserver {
     JButton startButton = new JButton("Start all cars");
     JButton stopButton = new JButton("Stop all cars");
 
-    JButton addCarButton = new JButton("Add car");
-    JButton removeCarButton = new JButton("Remove car");
 
     //behöver referens till DrawPanel för att kunna registrera
     public DrawPanel getDrawPanel(){
@@ -54,12 +55,15 @@ public class CarView extends JFrame implements VehicleObserver {
     // Constructor
     public CarView(String framename, CarController cc){
         this.carC = cc;
-        this.drawPanel = new DrawPanel(X, Y-240, carC.getVehicles()); // eller getCars()
+        this.drawPanel = new DrawPanel(X, Y-180, carC.getVehicles()); // eller getCars()
         initComponents(framename);
     }
     // Sets everything in place and fits everything
     // TODO: Take a good look and make sure you understand how these methods and components work
     private void initComponents(String title) {
+
+        addCarButton = new JButton("Add car");
+        removeCarButton = new JButton("Remove car");
 
         this.setTitle(title);
         this.setPreferredSize(new Dimension(X,Y));
@@ -97,20 +101,20 @@ public class CarView extends JFrame implements VehicleObserver {
         controlPanel.add(lowerBedButton, 5);
         controlPanel.add(addCarButton, 6);
         controlPanel.add(removeCarButton, 7);
-        controlPanel.setPreferredSize(new Dimension((X/2)+4, 200));
+        controlPanel.setPreferredSize(new Dimension((X/2)+4, 100));
         this.add(controlPanel);
         controlPanel.setBackground(Color.CYAN);
 
 
         startButton.setBackground(Color.blue);
         startButton.setForeground(Color.green);
-        startButton.setPreferredSize(new Dimension(X/5-15,200));
+        startButton.setPreferredSize(new Dimension(180,80));
         this.add(startButton);
 
 
         stopButton.setBackground(Color.red);
         stopButton.setForeground(Color.black);
-        stopButton.setPreferredSize(new Dimension(X/5-15,200));
+        stopButton.setPreferredSize(new Dimension(180,80));
         this.add(stopButton);
 
         // This actionListener is for the gas button only
@@ -183,6 +187,8 @@ public class CarView extends JFrame implements VehicleObserver {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         // Center the frame
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        // allow window resizing
+        this.setResizable(true);
         // Make the frame visible
         this.setVisible(true);
         // Make sure the frame exits when "x" is pressed
@@ -223,6 +229,45 @@ public class CarView extends JFrame implements VehicleObserver {
 
     public int getMaxY() {
         return drawPanel.getHeight();
+    }
+
+// Button methods
+    public void setAddCarEnabled(boolean enabled) {
+        addCarButton.setEnabled(enabled);
+    }
+    public void setRemoveCarEnabled(boolean enabled) {
+        removeCarButton.setEnabled(enabled);
+    }
+    public void setGasEnabled(boolean enabled) {
+        gasButton.setEnabled(enabled);
+    }
+
+    public void setBrakeEnabled(boolean enabled) {
+        brakeButton.setEnabled(enabled);
+    }
+
+    public void setStartEnabled(boolean enabled) {
+        startButton.setEnabled(enabled);
+    }
+
+    public void setStopEnabled(boolean enabled) {
+        stopButton.setEnabled(enabled);
+    }
+
+    public void setTurboOnEnabled(boolean enabled) {
+        turboOnButton.setEnabled(enabled);
+    }
+
+    public void setTurboOffEnabled(boolean enabled) {
+        turboOffButton.setEnabled(enabled);
+    }
+
+    public void setLiftBedEnabled(boolean enabled) {
+        liftBedButton.setEnabled(enabled);
+    }
+
+    public void setLowerBedEnabled(boolean enabled) {
+        lowerBedButton.setEnabled(enabled);
     }
 }
 

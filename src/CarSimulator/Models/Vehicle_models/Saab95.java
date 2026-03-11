@@ -25,4 +25,8 @@ public class Saab95 extends Car implements hasTurbo {
         if(turboCharger.getTurbo()) turbo = 1.3;
         return getEnginePower() * 0.01 * turbo;
     }
+
+    public boolean isTurboOn() {
+        return turboCharger.getTurbo();
+    }
 }

@@ -2,6 +2,8 @@ package CarSimulator;
 
 import CarSimulator.Models.*;
 import CarSimulator.Models.Vehicle_models.Volvo240;
+import CarSimulator.Models.Vehicle_models.Saab95;
+import CarSimulator.Models.Vehicle_models.Scania;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,6 +48,7 @@ public class CarController {
 
         // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.0", cc);
+        cc.updateButtonStates();
 
         // Registrerar CarView som observer på bilar efter de skapats
         for (Motor_vehicle car : cc.cars) {
@@ -64,22 +67,20 @@ public class CarController {
                 cc.frame.getMaxY()
         );
         tick.start();
+
+
     }
 
     //spawning 100 pixels away from each other
     public void carStartPositions() {
-        int carsPerColumn = 5;
-        int xSpacing = 120;
-        int ySpacing = 100;
+        int startX = 0;
+        int startY = 0;
+        int ySpacing = 65;   // avstånd mellan raderna
 
         for (int i = 0; i < cars.size(); i++) {
             Motor_vehicle car = cars.get(i);
-
-            int column = i / carsPerColumn;
-            int row = i % carsPerColumn;
-
-            car.getCoordinates().x = column * xSpacing;
-            car.getCoordinates().y = row * ySpacing;
+            car.getCoordinates().x = startX;
+            car.getCoordinates().y = startY + i * ySpacing;
         }
     }
 
@@ -138,60 +139,78 @@ public class CarController {
 
     void turboOn() {
         for (Motor_vehicle car : cars) {
-            if (car instanceof hasTurbo) ((hasTurbo) car).setTurboOn();
+            if (car instanceof hasTurbo) {
+                ((hasTurbo) car).setTurboOn();
+            }
         }
+        updateButtonStates();
     }
 
     void turboOff() {
         for (Motor_vehicle car : cars) {
-            if (car instanceof hasTurbo) ((hasTurbo) car).setTurboOff();
+            if (car instanceof hasTurbo) {
+                ((hasTurbo) car).setTurboOff();
+            }
         }
+        updateButtonStates();
     }
 
-    void liftBed () {
+    void liftBed() {
         for (Motor_vehicle car : cars) {
-            if (car instanceof hasFlatbed) ((hasFlatbed) car).LowerFlatbed(45);
+            if (car instanceof hasFlatbed) {
+                ((hasFlatbed) car).LowerFlatbed(45);
+            }
         }
+        updateButtonStates();
     }
 
-    void lowerBed () {
+    void lowerBed() {
         for (Motor_vehicle car : cars) {
-            if (car instanceof hasFlatbed) ((hasFlatbed) car).RaiseFlatbed(45);
+            if (car instanceof hasFlatbed) {
+                ((hasFlatbed) car).RaiseFlatbed(45);
+            }
         }
+        updateButtonStates();
     }
 
     void addCar() {
-        if (cars.size() < 10) {
-            Motor_vehicle newCar;
-            int randomNum = (int)(Math.random() * 3);
-
-            if (randomNum == 0) {
-                newCar = Motor_vehicleFactory.createVolvo240();
-            } else if (randomNum == 1) {
-                newCar = Motor_vehicleFactory.createSaab95();
-            } else {
-                newCar = Motor_vehicleFactory.createScania();
-            }
-
-            newCar.addObserver(frame);   // registrerar CarView som observer
-            cars.add(newCar);            // lägger till bilen i listan
-
-            carStartPositions();         // placerar om alla bilar så de får egna positioner
-            newCar.add();                // notifierar view
+        if (cars.size() >= 10) {
+            updateButtonStates();
+            return;
         }
 
+        Motor_vehicle newCar;
+        int randomNum = (int)(Math.random() * 3);
+
+        if (randomNum == 0) {
+            newCar = Motor_vehicleFactory.createVolvo240();
+        } else if (randomNum == 1) {
+            newCar = Motor_vehicleFactory.createSaab95();
+        } else {
+            newCar = Motor_vehicleFactory.createScania();
+        }
+
+        newCar.addObserver(frame);
+        cars.add(newCar);
+
+        carStartPositions();   // placerar alla bilar i egna rader
+        newCar.add();
+
+        updateButtonStates();
         System.out.println(cars.size());
     }
 
     void removeCar() {
-        if (!cars.isEmpty()) {
-            Motor_vehicle car = cars.remove(cars.size() - 1);
-            car.remove();
-
-            carStartPositions();   // placerar om kvarvarande bilar snyggt
-        } else {
-            System.out.println("No cars in sight!");
+        if (cars.isEmpty()) {
+            updateButtonStates();
+            return;
         }
+
+        Motor_vehicle car = cars.remove(cars.size() - 1);
+        car.remove();
+
+        carStartPositions();   // placerar om kvarvarande bilar
+        updateButtonStates();
 
         System.out.println(cars.size());
     }
@@ -200,4 +219,47 @@ public class CarController {
     public ArrayList<Motor_vehicle> getVehicles() {
         return cars;
     }
+
+    void updateButtonStates() {
+        boolean hasCars = !cars.isEmpty();
+        boolean canTurboOn = false;
+        boolean canTurboOff = false;
+        boolean canLiftBed = false;
+        boolean canLowerBed = false;
+
+        for (Motor_vehicle car : cars) {
+            if (car instanceof Saab95 saab) {
+                if (!saab.isTurboOn()) {
+                    canTurboOn = true;
+                }
+                if (saab.isTurboOn()) {
+                    canTurboOff = true;
+                }
+            }
+
+            if (car instanceof Scania scania) {
+                if (scania.getFlatBedAngle() == 0) {
+                    canLiftBed = true;
+                }
+                if (scania.getFlatBedAngle() > 0) {
+                    canLowerBed = true;
+                }
+            }
+        }
+
+        frame.setAddCarEnabled(cars.size() < 10);
+        frame.setRemoveCarEnabled(hasCars);
+
+        frame.setGasEnabled(hasCars);
+        frame.setBrakeEnabled(hasCars);
+        frame.setStartEnabled(hasCars);
+        frame.setStopEnabled(hasCars);
+
+        frame.setTurboOnEnabled(canTurboOn);
+        frame.setTurboOffEnabled(canTurboOff);
+
+        frame.setLiftBedEnabled(canLiftBed);
+        frame.setLowerBedEnabled(canLowerBed);
+    }
 }
+
