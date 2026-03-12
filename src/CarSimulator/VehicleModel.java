@@ -16,17 +16,6 @@ public class VehicleModel {
         notifyVehicleAdded();
     }
 
-    public void removeLastVehicle() {
-        if (!cars.isEmpty()) {
-            cars.remove(cars.size() - 1);
-            notifyVehicleRemoved();
-        }
-    }
-
-    public void addObserver(VehicleObserver observer) {
-        observers.add(observer);
-    }
-
     public void notifyVehicleAdded() {
         for (VehicleObserver observer : observers) {
             observer.vehicleAdded();
@@ -36,18 +25,6 @@ public class VehicleModel {
     public void notifyVehicleRemoved() {
         for (VehicleObserver observer : observers) {
             observer.vehicleRemoved();
-        }
-    }
-
-    public void notifyVehicleMoved() {
-        for (VehicleObserver observer : observers) {
-            observer.vehicleMoved();
-        }
-    }
-
-    public void notifyVehicleStateChanged() {
-        for (VehicleObserver observer : observers) {
-            observer.vehicleStateChanged();
         }
     }
 }
