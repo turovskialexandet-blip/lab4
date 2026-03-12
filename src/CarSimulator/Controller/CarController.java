@@ -114,7 +114,7 @@ public class CarController {
     public void liftBed() {
         for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasFlatbed) {
-                ((hasFlatbed) car).LowerFlatbed(45);
+                ((hasFlatbed) car).RaiseFlatbed(45);
                 car.stateChanged();
             }
         }
@@ -124,7 +124,7 @@ public class CarController {
     public void lowerBed() {
         for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasFlatbed) {
-                ((hasFlatbed) car).RaiseFlatbed(45);
+                ((hasFlatbed) car).LowerFlatbed(45);
                 car.stateChanged();
             }
         }
