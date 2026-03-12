@@ -1,10 +1,11 @@
-package CarSimulator;
+package CarSimulator.Controller;
 
+import CarSimulator.CollisionHandler;
 import CarSimulator.Models.*;
 import CarSimulator.Models.VehicleModel;
 import CarSimulator.Models.Vehicle_models.Volvo240;
-
-import java.util.ArrayList;
+import CarSimulator.Tick;
+import CarSimulator.View.CarView;
 
 public class CarController {
     private final VehicleModel model;

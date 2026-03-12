@@ -1,5 +1,7 @@
-package CarSimulator;
+package CarSimulator.View;
 
+import CarSimulator.Controller.CarController;
+import CarSimulator.DrawPanel;
 import CarSimulator.Models.VehicleObserver;
 import CarSimulator.Models.Motor_vehicle;
 import CarSimulator.Models.VehicleModel;
