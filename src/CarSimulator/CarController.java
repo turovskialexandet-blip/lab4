@@ -1,65 +1,42 @@
 package CarSimulator;
 
 import CarSimulator.Models.*;
+import CarSimulator.Models.VehicleModel;
 import CarSimulator.Models.Vehicle_models.Volvo240;
-import CarSimulator.Models.Vehicle_models.Saab95;
-import CarSimulator.Models.Vehicle_models.Scania;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-/*
-* This class represents the Controller part in the MVC pattern.
-* It's responsibilities is to listen to the View and responds in a appropriate manner by
-* modifying the model state and the updating the view.
- */
-
 public class CarController {
-    // member fields:
+    private final VehicleModel model;
 
-    // The delay (ms) corresponds to 20 updates a sec (hz)
-    // private final int delay = 50;
-    // The timer is started with a listener (see below) that executes the statements
-    // each step between delays.
-    // private final Timer timer = new Timer(delay, new TimerListener());
-
-    // The frame that represents this instance View of the MVC pattern
     CarView frame;
-    // A list of cars, modify if needed
-    ArrayList<Motor_vehicle> cars = new ArrayList<>();
 
-    //workShop object for Volvo240
     final Workshop<Volvo240> volvoBrand = new Workshop<>(2);
 
+    public CarController(VehicleModel model) {
+        this.model = model;
+    }
+
     public static void main(String[] args) {
-        // Instance of this class
-        CarController cc = new CarController();
+        VehicleModel model = new VehicleModel();
+        CarController cc = new CarController(model);
 
-        // Creating cars through Factory
-        cc.cars.add(Motor_vehicleFactory.createVolvo240());
-        cc.cars.add(Motor_vehicleFactory.createSaab95());
-        cc.cars.add(Motor_vehicleFactory.createScania());
+        model.addVehicle(Motor_vehicleFactory.createVolvo240());
+        model.addVehicle(Motor_vehicleFactory.createSaab95());
+        model.addVehicle(Motor_vehicleFactory.createScania());
 
-        // Cars starting 100 pixels away from each other
         cc.carStartPositions();
 
-        // Start a new view and send a reference of self
-        cc.frame = new CarView("CarSim 1.0", cc);
-        cc.updateButtonStates();
+        cc.frame = new CarView("CarSim 1.0", cc, model);
 
-        // Registrerar CarView som observer på bilar efter de skapats
-        for (Motor_vehicle car : cc.cars) {
+        for (Motor_vehicle car : model.getVehicles()) {
             car.addObserver(cc.frame);
         }
 
         CollisionHandler collisionHandler = new CollisionHandler();
 
-        // Start the timer
         Tick tick = new Tick(
-                cc.cars,
+                model.getVehicles(),
                 collisionHandler,
                 cc.volvoBrand,
                 cc.frame.getVolvoWorkshopPoint(),
@@ -67,115 +44,84 @@ public class CarController {
                 cc.frame.getMaxY()
         );
         tick.start();
-
-
     }
 
-    //spawning 100 pixels away from each other
     public void carStartPositions() {
         int startX = 0;
         int startY = 0;
-        int ySpacing = 65;   // avstånd mellan raderna
+        int ySpacing = 65;
 
-        for (int i = 0; i < cars.size(); i++) {
-            Motor_vehicle car = cars.get(i);
+        for (int i = 0; i < model.getVehicles().size(); i++) {
+            Motor_vehicle car = model.getVehicles().get(i);
             car.getCoordinates().x = startX;
             car.getCoordinates().y = startY + i * ySpacing;
         }
     }
 
-    /* Each step the TimerListener moves all the cars in the list and tells the
-     * view to update its images. Change this method to your needs.
-     * */
-    /*private class TimerListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            for (int i = cars.size() - 1; i >= 0; i--) {
-                Motor_vehicle car = cars.get(i);
-                car.move(); //notifierar DrawPanel via observer
-
-                int x = car.getCoordinates().x;
-                int y = car.getCoordinates().y;
-
-                collisionHandler.hitWallCollision(x, y, car);
-                if (collisionHandler.hitWorkshopCollision(x, y, i, car, volvoWorkshopPoint)){
-                    volvoBrand.load((Volvo240) car);
-                    cars.remove(car);
-                }
-            }
-
-            // repaint en gång efter att alla bilar uppdaterats
-            //frame.repaintDrawPanel(); //behövs inte längre efter observer
-        }
-    }
-
-     */
-    // Calls the gas method for each car once
     void gas(int amount) {
         double gas = ((double) amount) / 100;
-        for (Motor_vehicle car : cars) {
+        for (Motor_vehicle car : model.getVehicles()) {
             car.gas(gas);
         }
     }
 
     void brake(int amount) {
         double brakeAmount = ((double) amount) / 100;
-        for (Motor_vehicle car : cars) {
+        for (Motor_vehicle car : model.getVehicles()) {
             car.brake(brakeAmount);
         }
-
     }
 
     void start() {
-        for (Motor_vehicle car : cars) {
+        for (Motor_vehicle car : model.getVehicles()) {
             car.startEngine();
         }
     }
 
     void stop() {
-        for (Motor_vehicle car : cars) {
+        for (Motor_vehicle car : model.getVehicles()) {
             car.stopEngine();
         }
     }
 
     void turboOn() {
-        for (Motor_vehicle car : cars) {
+        for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasTurbo) {
                 ((hasTurbo) car).setTurboOn();
+                car.stateChanged();
             }
         }
-        updateButtonStates();
     }
 
     void turboOff() {
-        for (Motor_vehicle car : cars) {
+        for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasTurbo) {
                 ((hasTurbo) car).setTurboOff();
+                car.stateChanged();
             }
         }
-        updateButtonStates();
     }
 
     void liftBed() {
-        for (Motor_vehicle car : cars) {
+        for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasFlatbed) {
                 ((hasFlatbed) car).LowerFlatbed(45);
+                car.stateChanged();
             }
         }
-        updateButtonStates();
     }
 
     void lowerBed() {
-        for (Motor_vehicle car : cars) {
+        for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasFlatbed) {
                 ((hasFlatbed) car).RaiseFlatbed(45);
+                car.stateChanged();
             }
         }
-        updateButtonStates();
     }
 
     void addCar() {
-        if (cars.size() >= 10) {
-            updateButtonStates();
+        if (model.getVehicles().size() >= 10) {
             return;
         }
 
@@ -191,75 +137,28 @@ public class CarController {
         }
 
         newCar.addObserver(frame);
-        cars.add(newCar);
+        model.addVehicle(newCar);
 
-        carStartPositions();   // placerar alla bilar i egna rader
+        carStartPositions();
         newCar.add();
 
-        updateButtonStates();
-        System.out.println(cars.size());
+        System.out.println(model.getVehicles().size());
     }
 
     void removeCar() {
-        if (cars.isEmpty()) {
-            updateButtonStates();
+        if (model.getVehicles().isEmpty()) {
             return;
         }
 
-        Motor_vehicle car = cars.remove(cars.size() - 1);
+        Motor_vehicle car = model.getVehicles().remove(model.getVehicles().size() - 1);
         car.remove();
 
-        carStartPositions();   // placerar om kvarvarande bilar
-        updateButtonStates();
+        carStartPositions();
 
-        System.out.println(cars.size());
+        System.out.println(model.getVehicles().size());
     }
 
-    // Getter for vehicles (used by Lab1and2.CarView / DrawPanel)
     public ArrayList<Motor_vehicle> getVehicles() {
-        return cars;
-    }
-
-    void updateButtonStates() {
-        boolean hasCars = !cars.isEmpty();
-        boolean canTurboOn = false;
-        boolean canTurboOff = false;
-        boolean canLiftBed = false;
-        boolean canLowerBed = false;
-
-        for (Motor_vehicle car : cars) {
-            if (car instanceof Saab95 saab) {
-                if (!saab.isTurboOn()) {
-                    canTurboOn = true;
-                }
-                if (saab.isTurboOn()) {
-                    canTurboOff = true;
-                }
-            }
-
-            if (car instanceof Scania scania) {
-                if (scania.getFlatBedAngle() == 0) {
-                    canLiftBed = true;
-                }
-                if (scania.getFlatBedAngle() > 0) {
-                    canLowerBed = true;
-                }
-            }
-        }
-
-        frame.setAddCarEnabled(cars.size() < 10);
-        frame.setRemoveCarEnabled(hasCars);
-
-        frame.setGasEnabled(hasCars);
-        frame.setBrakeEnabled(hasCars);
-        frame.setStartEnabled(hasCars);
-        frame.setStopEnabled(hasCars);
-
-        frame.setTurboOnEnabled(canTurboOn);
-        frame.setTurboOffEnabled(canTurboOff);
-
-        frame.setLiftBedEnabled(canLiftBed);
-        frame.setLowerBedEnabled(canLowerBed);
+        return model.getVehicles();
     }
 }
-

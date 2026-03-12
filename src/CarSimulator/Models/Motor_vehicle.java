@@ -34,6 +34,12 @@ public abstract class Motor_vehicle extends Vehicle {
         for (VehicleObserver o : observers) {
             o.vehicleAdded();
         }
+
+    }
+    public void stateChanged() {
+        for (VehicleObserver o : observers) {
+            o.vehicleStateChanged();
+        }
     }
 
 

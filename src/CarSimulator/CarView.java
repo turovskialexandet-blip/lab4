@@ -1,6 +1,10 @@
 package CarSimulator;
 
 import CarSimulator.Models.VehicleObserver;
+import CarSimulator.Models.Motor_vehicle;
+import CarSimulator.Models.VehicleModel;
+import CarSimulator.Models.Vehicle_models.Saab95;
+import CarSimulator.Models.Vehicle_models.Scania;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -10,32 +14,49 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * This class represents the full view of the MVC pattern of your car simulator.
- * It initializes with being center on the screen and attaching it's controller in it's state.
- * It communicates with the Controller by calling methods of it when an action fires of in
- * each of it's components.
- * TODO: Write more actionListeners and wire the rest of the buttons
- **/
-
+ * CarView represents the View in the MVC architecture.
+ *
+ * Responsibilities:
+ * - Display the cars on the screen (DrawPanel)
+ * - Contain all GUI components (buttons, sliders, etc.)
+ * - Send user actions to the Controller
+ * - Observe the Model and update the GUI when the model changes
+ *
+ * Important design change:
+ * CarView now reads the vehicle list directly from VehicleModel
+ * instead of going through CarController. This reduces coupling
+ * between the Controller and the View.
+ */
 public class CarView extends JFrame implements VehicleObserver {
+
+    // Window size
     private static final int X = 1200;
     private static final int Y = 900;
 
+    // Buttons for adding/removing cars
     private JButton addCarButton;
     private JButton removeCarButton;
 
-    // The controller member
-    CarController carC;
+    // Controller reference (used to send user actions)
+    private final CarController carC;
 
+    // Direct reference to the Model
+    // View reads model state directly instead of asking the controller
+    private final VehicleModel model;
+
+    // Panel responsible for drawing cars
     DrawPanel drawPanel;
 
+    // GUI panels
     JPanel controlPanel = new JPanel();
-
     JPanel gasPanel = new JPanel();
+
+    // Gas input
     JSpinner gasSpinner = new JSpinner();
     int gasAmount = 0;
     JLabel gasLabel = new JLabel("Amount of gas");
 
+    // Control buttons
     JButton gasButton = new JButton("Gas");
     JButton brakeButton = new JButton("Brake");
     JButton turboOnButton = new JButton("Saab Turbo on");
@@ -46,42 +67,53 @@ public class CarView extends JFrame implements VehicleObserver {
     JButton startButton = new JButton("Start all cars");
     JButton stopButton = new JButton("Stop all cars");
 
+    /**
+     * Constructor for CarView
+     *
+     * @param framename window title
+     * @param cc controller (used to send user actions)
+     * @param model the model (contains all cars)
+     */
+    public CarView(String framename, CarController cc, VehicleModel model) {
 
-    //behöver referens till DrawPanel för att kunna registrera
-    public DrawPanel getDrawPanel(){
-        return drawPanel;
-    }
-
-    // Constructor
-    public CarView(String framename, CarController cc){
+        // Save controller and model references
         this.carC = cc;
-        this.drawPanel = new DrawPanel(X, Y-180, carC.getVehicles()); // eller getCars()
+        this.model = model;
+
+        // DrawPanel receives the vehicle list from the model
+        this.drawPanel = new DrawPanel(X, Y - 180, model.getVehicles());
+
+        // Build GUI
         initComponents(framename);
+
+        // Update button states based on model state
+        updateButtonStatesFromModel();
     }
-    // Sets everything in place and fits everything
-    // TODO: Take a good look and make sure you understand how these methods and components work
+
+    /**
+     * Builds and arranges all GUI components.
+     */
     private void initComponents(String title) {
 
         addCarButton = new JButton("Add car");
         removeCarButton = new JButton("Remove car");
 
         this.setTitle(title);
-        this.setPreferredSize(new Dimension(X,Y));
+        this.setPreferredSize(new Dimension(X, Y));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
+        // Add the drawing area to the frame
         this.add(drawPanel);
 
-
-
+        // Gas spinner (0-100)
         SpinnerModel spinnerModel =
-                new SpinnerNumberModel(0, //initial value
-                        0, //min
-                        100, //max
-                        1);//step
+                new SpinnerNumberModel(0, 0, 100, 1);
+
         gasSpinner = new JSpinner(spinnerModel);
+
         gasSpinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                gasAmount = (int) ((JSpinner)e.getSource()).getValue();
+                gasAmount = (int) ((JSpinner) e.getSource()).getValue();
             }
         });
 
@@ -91,137 +123,101 @@ public class CarView extends JFrame implements VehicleObserver {
 
         this.add(gasPanel);
 
-        controlPanel.setLayout(new GridLayout(2,4));
+        // Panel for main control buttons
+        controlPanel.setLayout(new GridLayout(2, 4));
 
-        controlPanel.add(gasButton, 0);
-        controlPanel.add(turboOnButton, 1);
-        controlPanel.add(liftBedButton, 2);
-        controlPanel.add(brakeButton, 3);
-        controlPanel.add(turboOffButton, 4);
-        controlPanel.add(lowerBedButton, 5);
-        controlPanel.add(addCarButton, 6);
-        controlPanel.add(removeCarButton, 7);
-        controlPanel.setPreferredSize(new Dimension((X/2)+4, 100));
-        this.add(controlPanel);
+        controlPanel.add(gasButton);
+        controlPanel.add(turboOnButton);
+        controlPanel.add(liftBedButton);
+        controlPanel.add(brakeButton);
+        controlPanel.add(turboOffButton);
+        controlPanel.add(lowerBedButton);
+        controlPanel.add(addCarButton);
+        controlPanel.add(removeCarButton);
+
+        controlPanel.setPreferredSize(new Dimension((X / 2) + 4, 100));
         controlPanel.setBackground(Color.CYAN);
 
+        this.add(controlPanel);
 
+        // Start button
         startButton.setBackground(Color.blue);
         startButton.setForeground(Color.green);
-        startButton.setPreferredSize(new Dimension(180,80));
+        startButton.setPreferredSize(new Dimension(180, 80));
         this.add(startButton);
 
-
+        // Stop button
         stopButton.setBackground(Color.red);
         stopButton.setForeground(Color.black);
-        stopButton.setPreferredSize(new Dimension(180,80));
+        stopButton.setPreferredSize(new Dimension(180, 80));
         this.add(stopButton);
 
-        // This actionListener is for the gas button only
-        // TODO: Create more for each component as necessary
-        gasButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.gas(gasAmount);
-            }
-        });
+        /**
+         * Button listeners
+         * The View does NOT modify the model directly.
+         * Instead it sends the user action to the Controller.
+         */
 
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.start();
-            }
-        });
+        gasButton.addActionListener(e -> carC.gas(gasAmount));
+        brakeButton.addActionListener(e -> carC.brake(gasAmount));
+        startButton.addActionListener(e -> carC.start());
+        stopButton.addActionListener(e -> carC.stop());
 
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.stop();
-            }
-        });
+        turboOnButton.addActionListener(e -> carC.turboOn());
+        turboOffButton.addActionListener(e -> carC.turboOff());
 
-        brakeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.brake(gasAmount);
-            }
-        });
+        liftBedButton.addActionListener(e -> carC.liftBed());
+        lowerBedButton.addActionListener(e -> carC.lowerBed());
 
-        turboOnButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turboOn();
-            }
-        });
-        turboOffButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turboOff();
-            }
-        });
-        liftBedButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.liftBed();
-            }
-        });
-        lowerBedButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.lowerBed();
-            }
-        });
-        addCarButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){ carC.addCar();}});
+        addCarButton.addActionListener(e -> carC.addCar());
+        removeCarButton.addActionListener(e -> carC.removeCar());
 
-        removeCarButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){ carC.removeCar();}});
-
-
-        // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
 
-        // Get the computer screen resolution
+        // Center window
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        // Center the frame
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        // allow window resizing
+        this.setLocation(dim.width / 2 - this.getSize().width / 2,
+                dim.height / 2 - this.getSize().height / 2);
+
         this.setResizable(true);
-        // Make the frame visible
         this.setVisible(true);
-        // Make sure the frame exits when "x" is pressed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    //public void repaintDrawPanel() {drawPanel.repaint();} //drawpanel sköter sin repaint via positionChanged
-
-    public int getDrawPanelWidth() {
-        return drawPanel.getWidth();
-    }
-
-    public int getDrawPanelHeight() {
-        return drawPanel.getHeight();
-    }
+    /**
+     * Observer callbacks
+     *
+     * These methods are called when the model notifies observers.
+     * The view reacts by repainting and updating button states.
+     */
 
     @Override
     public void vehicleMoved() {
         drawPanel.repaint();
+        updateButtonStatesFromModel();
     }
 
     @Override
     public void vehicleRemoved() {
         drawPanel.repaint();
+        updateButtonStatesFromModel();
     }
 
     @Override
     public void vehicleAdded() {
         drawPanel.repaint();
+        updateButtonStatesFromModel();
     }
 
+    @Override
+    public void vehicleStateChanged() {
+        drawPanel.repaint();
+        updateButtonStatesFromModel();
+    }
 
-    public Point getVolvoWorkshopPoint() { return drawPanel.getVolvoWorkshopPoint();}
+    public Point getVolvoWorkshopPoint() {
+        return drawPanel.getVolvoWorkshopPoint();
+    }
 
     public int getMaxX() {
         return drawPanel.getWidth();
@@ -231,45 +227,56 @@ public class CarView extends JFrame implements VehicleObserver {
         return drawPanel.getHeight();
     }
 
-// Button methods
-    public void setAddCarEnabled(boolean enabled) {
-        addCarButton.setEnabled(enabled);
-    }
-    public void setRemoveCarEnabled(boolean enabled) {
-        removeCarButton.setEnabled(enabled);
-    }
-    public void setGasEnabled(boolean enabled) {
-        gasButton.setEnabled(enabled);
-    }
+    /**
+     * Reads the model state and enables/disables buttons accordingly.
+     *
+     * This logic is now inside the View instead of the Controller.
+     * That means the Controller no longer controls GUI details.
+     */
+    private void updateButtonStatesFromModel() {
 
-    public void setBrakeEnabled(boolean enabled) {
-        brakeButton.setEnabled(enabled);
-    }
+        boolean hasCars = !model.getVehicles().isEmpty();
 
-    public void setStartEnabled(boolean enabled) {
-        startButton.setEnabled(enabled);
-    }
+        boolean canTurboOn = false;
+        boolean canTurboOff = false;
+        boolean canLiftBed = false;
+        boolean canLowerBed = false;
 
-    public void setStopEnabled(boolean enabled) {
-        stopButton.setEnabled(enabled);
-    }
+        // Inspect vehicles to determine allowed actions
+        for (Motor_vehicle car : model.getVehicles()) {
 
-    public void setTurboOnEnabled(boolean enabled) {
-        turboOnButton.setEnabled(enabled);
-    }
+            if (car instanceof Saab95 saab) {
+                if (!saab.isTurboOn()) {
+                    canTurboOn = true;
+                }
+                if (saab.isTurboOn()) {
+                    canTurboOff = true;
+                }
+            }
 
-    public void setTurboOffEnabled(boolean enabled) {
-        turboOffButton.setEnabled(enabled);
-    }
+            if (car instanceof Scania scania) {
+                if (scania.getFlatBedAngle() == 0) {
+                    canLiftBed = true;
+                }
+                if (scania.getFlatBedAngle() > 0) {
+                    canLowerBed = true;
+                }
+            }
+        }
 
-    public void setLiftBedEnabled(boolean enabled) {
-        liftBedButton.setEnabled(enabled);
-    }
+        // Enable/disable buttons
+        addCarButton.setEnabled(model.getVehicles().size() < 10);
+        removeCarButton.setEnabled(hasCars);
 
-    public void setLowerBedEnabled(boolean enabled) {
-        lowerBedButton.setEnabled(enabled);
+        gasButton.setEnabled(hasCars);
+        brakeButton.setEnabled(hasCars);
+        startButton.setEnabled(hasCars);
+        stopButton.setEnabled(hasCars);
+
+        turboOnButton.setEnabled(canTurboOn);
+        turboOffButton.setEnabled(canTurboOff);
+
+        liftBedButton.setEnabled(canLiftBed);
+        lowerBedButton.setEnabled(canLowerBed);
     }
 }
-
-
-

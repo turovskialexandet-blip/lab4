@@ -4,4 +4,5 @@ public interface VehicleObserver {
     void vehicleMoved();
     void vehicleRemoved();
     void vehicleAdded();
+    void vehicleStateChanged();
 }

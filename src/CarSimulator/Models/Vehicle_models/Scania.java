@@ -17,7 +17,9 @@ public class Scania extends Truck<Object> implements hasFlatbed {
         turboCharger = new TurboCharger();
     }
 
-    public double getFlatBedAngle(){ return flatbed.getFlatBedAngle(); }
+    public double getFlatBedAngle(){
+        return flatbed.getFlatBedAngle();
+    }
 
     public void RaiseFlatbed(double angle) {
         if (getCurrentSpeed() == 0) {
