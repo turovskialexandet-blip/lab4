@@ -59,33 +59,33 @@ public class CarController {
         }
     }
 
-    void gas(int amount) {
+    public void gas(int amount) {
         double gas = ((double) amount) / 100;
         for (Motor_vehicle car : model.getVehicles()) {
             car.gas(gas);
         }
     }
 
-    void brake(int amount) {
+    public void brake(int amount) {
         double brakeAmount = ((double) amount) / 100;
         for (Motor_vehicle car : model.getVehicles()) {
             car.brake(brakeAmount);
         }
     }
 
-    void start() {
+    public void start() {
         for (Motor_vehicle car : model.getVehicles()) {
             car.startEngine();
         }
     }
 
-    void stop() {
+    public void stop() {
         for (Motor_vehicle car : model.getVehicles()) {
             car.stopEngine();
         }
     }
 
-    void turboOn() {
+    public void turboOn() {
         for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasTurbo) {
                 ((hasTurbo) car).setTurboOn();
@@ -94,7 +94,7 @@ public class CarController {
         }
     }
 
-    void turboOff() {
+    public void turboOff() {
         for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasTurbo) {
                 ((hasTurbo) car).setTurboOff();
@@ -103,7 +103,7 @@ public class CarController {
         }
     }
 
-    void liftBed() {
+    public void liftBed() {
         for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasFlatbed) {
                 ((hasFlatbed) car).LowerFlatbed(45);
@@ -112,7 +112,7 @@ public class CarController {
         }
     }
 
-    void lowerBed() {
+    public void lowerBed() {
         for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasFlatbed) {
                 ((hasFlatbed) car).RaiseFlatbed(45);
@@ -121,7 +121,7 @@ public class CarController {
         }
     }
 
-    void addCar() {
+    public void addCar() {
         if (model.getVehicles().size() >= 10) {
             return;
         }
@@ -146,7 +146,7 @@ public class CarController {
         System.out.println(model.getVehicles().size());
     }
 
-    void removeCar() {
+    public void removeCar() {
         if (model.getVehicles().isEmpty()) {
             return;
         }

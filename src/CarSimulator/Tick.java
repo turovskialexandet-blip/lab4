@@ -31,7 +31,7 @@ public class Tick {
     }
 
     //starta tick - anropas från controller
-    void start() {timer.start();}
+    public void start() {timer.start();}
 
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
