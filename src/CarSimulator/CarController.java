@@ -157,8 +157,4 @@ public class CarController {
 
         System.out.println(model.getVehicles().size());
     }
-
-    public ArrayList<Motor_vehicle> getVehicles() {
-        return model.getVehicles();
-    }
 }
