@@ -30,6 +30,10 @@ public class CarController {
 
         cc.frame = new CarView("CarSim 1.0", cc, model);
 
+        // CarView observerar modellen
+        model.addObserver(cc.frame);
+
+        // CarView observerar även varje enskilt fordon
         for (Motor_vehicle car : model.getVehicles()) {
             car.addObserver(cc.frame);
         }
@@ -57,6 +61,8 @@ public class CarController {
             car.getCoordinates().x = startX;
             car.getCoordinates().y = startY + i * ySpacing;
         }
+
+        model.notifyVehicleMoved();
     }
 
     public void gas(int amount) {
@@ -92,15 +98,17 @@ public class CarController {
                 car.stateChanged();
             }
         }
+        model.notifyVehicleStateChanged();
     }
 
-    public void turboOff() {
+    public void  turboOff() {
         for (Motor_vehicle car : model.getVehicles()) {
             if (car instanceof hasTurbo) {
                 ((hasTurbo) car).setTurboOff();
                 car.stateChanged();
             }
         }
+        model.notifyVehicleStateChanged();
     }
 
     public void liftBed() {
@@ -110,6 +118,7 @@ public class CarController {
                 car.stateChanged();
             }
         }
+        model.notifyVehicleStateChanged();
     }
 
     public void lowerBed() {
@@ -119,6 +128,7 @@ public class CarController {
                 car.stateChanged();
             }
         }
+        model.notifyVehicleStateChanged();
     }
 
     public void addCar() {
@@ -138,6 +148,8 @@ public class CarController {
         }
 
         newCar.addObserver(frame);
+
+        // Lägg till bilen via modellen
         model.addVehicle(newCar);
 
         carStartPositions();
@@ -151,8 +163,11 @@ public class CarController {
             return;
         }
 
-        Motor_vehicle car = model.getVehicles().remove(model.getVehicles().size() - 1);
-        car.remove();
+        Motor_vehicle removedCar = model.removeLastVehicle();
+
+        if (removedCar != null) {
+            removedCar.remove();
+        }
 
         carStartPositions();
 
